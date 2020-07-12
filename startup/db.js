@@ -1,16 +1,18 @@
 var myssql = require('mysql');
+const config = require('config');
+const winston = require('winston');
 var connection = myssql.createConnection({
     host : '127.0.0.1',
     user : "root",
-    password : 'Nissan20',
+    password : config.get('dbPassword'),
     database : "mydb"
 });
 
 connection.connect(function(err){
     if(!err){
-        console.log("Database is connected");
+        winston.info("Database is connected");
     } else {
-        console.log("Error while connecting with database");
+        throw new Error("Error while connecting with database");
     }
 });
 

@@ -1,0 +1,7 @@
+{
+    "jwtPrivateKey":"",
+    "dbPassword": "",
+    "refreshToken":"",
+    "tokenLife":100,
+    "RefreshTokenLife":200
+}
