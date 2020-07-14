@@ -1,7 +1,7 @@
 {
     "jwtPrivateKey":"",
-    "dbPassword": "",
+    "db": "mongodb://localhost/books",
     "refreshToken":"",
-    "tokenLife":100,
-    "RefreshTokenLife":200
+    "tokenLife":200,
+    "RefreshTokenLife":400
 }

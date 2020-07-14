@@ -3,8 +3,11 @@ const register = require('../routes/register');
 const login = require('../routes/login')
 const books = require('../routes/books');
 const token = require('../routes/refreshtoken');
+var bodyParser = require('body-parser');
 module.exports = function(app){
     app.use(express.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json({ type: 'application/*+json' }));
     app.use('/api/register',register);
     app.use('/api/login',login);
     app.use('/api/books',books);
