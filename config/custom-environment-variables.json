@@ -1,5 +1,6 @@
 {
     "jwtPrivateKey":"book_app_jwt",
-    "dbPassword": "mysql_passwd",
-    "refreshToken":"refresh_token"
+    "refreshToken":"refresh_token",
+    "user_id":"email_id",
+    "passwd":"email_passwd"
 }

@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlenght: 255
-    }
+    },
+    isVerified: { type: Boolean, default: false }
 });
 const User = new mongoose.model('User',userSchema);
 function validateUser(user){

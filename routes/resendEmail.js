@@ -1,24 +1,18 @@
-const bcrypt = require('bcrypt');
 const express = require('express');
 const nodemailer = require('nodemailer');
-const {Token} = require('../model/emailToken')
-const jwt =require('jsonwebtoken');
+const router= express.Router();
+const {User} = require('../model/user');
+const {Token} = require('../model/emailToken');
 const config = require('config');
-const {User, validate} = require('../model/user');
-const router = express.Router();
-const _ = require('lodash');
+const Joi = require('joi');
 const crypto = require('crypto');
 
-
-router.post('/', async(req, res) => {
+router.post('/',async (req, res) => {
     const {error} = validate(req.body);
     if ( error ) return res.status(400).send(error.details[0].message);
     let user = await User.findOne({email: req.body.email});
-    if ( user ) return res.status(400).send('User already registered');
-    const salt = await bcrypt.genSalt(10);
-    user = new User(_.pick(req.body,['name','email','password']));
-    user.password = await bcrypt.hash(user.password,salt);
-    await user.save();
+    if ( !user ) return res.status(400).send('Email id is not registered');
+    if (user.isVerified) return res.status(400).send('Email is already verified');
     const tokenEmail = new Token({ _userId:user._id, token: crypto.randomBytes(16).toString('hex')});
     await tokenEmail.save();
     const transporter = nodemailer.createTransport({
@@ -35,14 +29,14 @@ router.post('/', async(req, res) => {
         if (err) { return res.status(500).send({ msg: err.message }); }
         res.status(200).send('A verification email has been sent to ' + user.email + '.');
     });
-    /*const accessToken = jwt.sign({ email: req.body.email}, config.get('jwtPrivateKey'),{ expiresIn: config.tokenLife});
-    const refreshToken = jwt.sign({ email: req.body.email}, config.get('refreshToken'),{ expiresIn: config.RefreshTokenLife});
-    res.status(200).header({'auth-token':accessToken,'refresh-token':refreshToken}).send(_.pick(user,['_id','name','email']));*/
-    
+
 });
 
 
-
-
-
+function validate(email){
+    const schema = {
+        email: Joi.string().email({minDomainAtoms: 2}).required().min(5).max(255)
+    }
+    return Joi.validate(email,schema);   // to validate req.body when user sends registration
+}
 module.exports =router;

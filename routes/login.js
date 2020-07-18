@@ -14,6 +14,7 @@ router.post('/',  async(req, res) => {
     if ( !user ) return res.status(400).send('Invalid username or password');
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send('invalid username or password');
+    if (!user.isVerified) return res.status(400).send('Email is not verified');
     const accessToken = jwt.sign({ email: req.body.email}, config.get('jwtPrivateKey'),{ expiresIn: config.tokenLife});
     const refreshToken = jwt.sign({ email: req.body.email}, config.get('refreshToken'),{ expiresIn: config.RefreshTokenLife});
     res.status(200).send({'auth-token':accessToken,'refresh-token':refreshToken});

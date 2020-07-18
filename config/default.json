@@ -3,5 +3,7 @@
     "db": "mongodb://localhost/books",
     "refreshToken":"",
     "tokenLife":200,
-    "RefreshTokenLife":400
+    "RefreshTokenLife":400,
+    "user_id":"",
+    "passwd":""
 }
