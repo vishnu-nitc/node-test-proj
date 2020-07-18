@@ -2,5 +2,6 @@
     "jwtPrivateKey":"book_app_jwt",
     "refreshToken":"refresh_token",
     "user_id":"email_id",
-    "passwd":"email_passwd"
+    "passwd":"email_passwd",
+    "db":"mongo_db"
 }
