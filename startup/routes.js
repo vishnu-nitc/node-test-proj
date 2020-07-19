@@ -6,6 +6,7 @@ const token = require('../routes/refreshtoken');
 const resend = require('../routes/resendEmail');
 const emailConfirmation = require('../routes/emailConfirmation')
 const resetpassword = require('../routes/resetPassword');
+const forgotPassword = require('../routes/forgotPassword');
 var bodyParser = require('body-parser');
 module.exports = function(app){
     app.use(express.json());
@@ -18,6 +19,7 @@ module.exports = function(app){
     app.use('/confirmation',emailConfirmation);
     app.use('/resend',resend);
     app.use('/resetpassword',resetpassword);
+    app.use('/forgotpassword',forgotPassword);
     app.get('/', function (req, res)  {
         res.sendFile("/index.html", { root: '.' });
     });
